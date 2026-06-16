@@ -4,15 +4,16 @@ from pydantic import BaseModel
 class User(BaseModel):
     name: str
     email: str
-    age: int
 
 
-def main():
-    user = User(name="Alice", email="alice@example.com", age=30)
-    print(f"User: {user.name}")
-    print(f"Email: {user.email}")
-    print(f"Age: {user.age}")
+def greet_user(user: User) -> str:
+    return f"Hello! {user.name}"
 
 
-if __name__ == "__main__":
-    main()
+def load_data(data: User):
+    return User.model_validate(data)
+
+
+user = load_data({"name": "Alice", "email": "alice@example.com"})
+message = greet_user(user)
+print(message)
